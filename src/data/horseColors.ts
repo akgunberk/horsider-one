@@ -1,0 +1,23 @@
+/** Twenty visually distinct horse colors, reused across generated rosters. */
+export const horseColors: readonly string[] = [
+  '#c82829',
+  '#8e24aa',
+  '#167a3c',
+  '#1d4ed8',
+  '#0e7490',
+  '#855e00',
+  '#5b21b6',
+  '#0f766e',
+  '#0369a1',
+  '#be185d',
+  '#ea580c',
+  '#65a30d',
+  '#7c3aed',
+  '#0891b2',
+  '#a16207',
+  '#db2777',
+  '#15803d',
+  '#4338ca',
+  '#b91c1c',
+  '#4d7c0f',
+]
