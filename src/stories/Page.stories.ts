@@ -12,6 +12,8 @@ const meta = {
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
+    // Scaffolding from the Vite template; not part of the app surface.
+    chromatic: { disableSnapshot: true },
   },
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
