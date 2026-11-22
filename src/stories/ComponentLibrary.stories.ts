@@ -30,6 +30,8 @@ const meta = {
   title: 'Overview/Component Library',
   parameters: {
     layout: 'fullscreen',
+    // Kitchen-sink overview duplicates the per-component snapshots.
+    chromatic: { disableSnapshot: true },
   },
   render: () => ({
     components: {

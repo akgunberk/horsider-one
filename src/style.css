@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&family=Wix+Madefor+Display:wght@500;600;700&display=swap');
-
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/spline-sans-mono';
+@import '@fontsource-variable/wix-madefor-display';
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -49,9 +50,10 @@
 }
 
 @theme static {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-heading: 'Wix Madefor Display', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Spline Sans Mono', ui-monospace, monospace;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-heading:
+    'Wix Madefor Display Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Spline Sans Mono Variable', ui-monospace, monospace;
   --color-lane-1: #c82829;
   --color-lane-1-track: #f2b8b8;
   --color-lane-2: #8e24aa;

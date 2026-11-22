@@ -55,6 +55,20 @@ The hook is installed by `pnpm install` (`prepare` sets `core.hooksPath`). `VERI
 - Interaction tests are not part of `pnpm verify`/`verify:changed` so the inner loop stays fast; `verify:handoff` and CI run them when component/story files change.
 - Explore locally with `pnpm storybook`.
 
+## Visual tests (Chromatic)
+
+- Storybook stories are snapshotted in Chromatic's cloud browsers (Chrome), so rendering is identical for macOS and Linux developers and no local browser install is needed.
+- CI (`.github/workflows/ci.yml`, `visual` job) runs on pull requests and on `push: main`:
+  - PRs: `exitZeroOnChanges: false` — the check fails on any pixel diff until a human approves the build in Chromatic.
+  - `main`: `autoAcceptChanges: true` — a merged change becomes the new baseline automatically, so baselines never live in git and cannot conflict.
+  - `onlyChanged: true` (TurboSnap) only snapshots stories affected by the diff.
+- Secret: `CHROMATIC_PROJECT_TOKEN` (repo settings → secrets → Actions). Fork PRs are skipped because secrets are unavailable to them.
+- Approval flow: open the PR → click the failed `UI Tests` check (or the Chromatic comment) → review the diff → Accept → re-run the check. The Chromatic build log records who approved what; use that for blame when a visual regression ships.
+- Snapshots are opt-out: `parameters.chromatic.disableSnapshot = true` on scaffolding/noisy stories (`Example/Page`, `Overview/Component Library`). Do the same for any story that depends on timers or randomness.
+- Fonts are self-hosted via `@fontsource-variable/*`; keep it that way so snapshots never wait on a network font.
+- Local validation: `pnpm build-storybook` then `CHROMATIC_PROJECT_TOKEN=… pnpm test:visual`. This publishes a build to Chromatic, so use it sparingly; `pnpm test:storybook` covers interaction tests locally and is what `verify:handoff` runs.
+- To make the check blocking, add the `visual` job to the `main` branch protection rules.
+
 ## E2E
 
 `pnpm verify:handoff` runs Chromium e2e automatically for changes to `src/components/`, `src/stores/`, `src/App.vue`, or any user-visible flow. Run `pnpm test:e2e` directly to debug or cover all browsers. Playwright tests live in `e2e/` and cover Chromium, Firefox, and WebKit.
