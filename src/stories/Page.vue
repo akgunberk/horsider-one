@@ -3,8 +3,7 @@
 </template>
 
 <script lang="ts" setup>
+import './page.css'
 
-import './page.css';
-
-defineOptions({ name: 'StoryPage' });
+defineOptions({ name: 'StoryPage' })
 </script>

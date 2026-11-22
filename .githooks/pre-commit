@@ -1,0 +1,3 @@
+#!/bin/sh
+# Fast tier on staged files only. Full gate runs at handoff and in CI.
+exec pnpm --silent verify:staged
