@@ -7,6 +7,8 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Set by the Pages deploy workflow; stays `/` for dev, preview, and e2e.
+  base: process.env.VITE_BASE ?? '/',
   plugins: [
     vue(),
     vueDevTools(),
