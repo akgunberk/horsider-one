@@ -8,7 +8,8 @@
  * Quiet by design: prints one line per step on success, full output on failure.
  */
 import { execFileSync, spawn } from 'node:child_process'
-import { existsSync } from 'node:fs'
+import { existsSync, readdirSync } from 'node:fs'
+import path from 'node:path'
 import process from 'node:process'
 
 type Mode = 'changed' | 'staged' | 'full' | 'handoff'
@@ -163,6 +164,47 @@ function planHeavy(files: string[]): Step[] {
   return steps
 }
 
+function walkFiles(dir: string): string[] {
+  if (!existsSync(dir)) return []
+  const out: string[] = []
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) out.push(...walkFiles(full))
+    else out.push(full)
+  }
+  return out
+}
+
+function checkStructure(): Result {
+  const started = Date.now()
+  const violations: string[] = []
+
+  if (existsSync('src/composables')) {
+    for (const entry of readdirSync('src/composables', { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        violations.push(`src/composables/${entry.name}/: composables directory must stay flat`)
+      } else if (entry.name === 'index.ts') {
+        violations.push('src/composables/index.ts: barrel files are forbidden in src/composables/')
+      }
+    }
+  }
+
+  for (const area of ['src/components/race', 'src/components/layout']) {
+    for (const file of walkFiles(area)) {
+      if (path.basename(file) === 'index.ts') {
+        violations.push(`${file}: barrel files are forbidden in app-owned components`)
+      }
+    }
+  }
+
+  return {
+    name: 'structure',
+    ok: violations.length === 0,
+    ms: Date.now() - started,
+    output: violations.join('\n'),
+  }
+}
+
 async function main() {
   const mode = process.argv[2] as Mode
   if (!MODES.includes(mode)) {
@@ -183,7 +225,8 @@ async function main() {
   }
 
   const started = Date.now()
-  const fastResults = await Promise.all(fast.map(run))
+  const structureResult = checkStructure()
+  const fastResults = [structureResult, ...(await Promise.all(fast.map(run)))]
   let ok = report(fastResults)
 
   if (ok && mode === 'handoff') {

@@ -1,3 +1,10 @@
 #!/bin/sh
+# Block direct commits to main (merges are allowed when MERGE_HEAD exists).
+branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+if [ "$branch" = "main" ] && [ ! -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]; then
+  echo "✗ Direct commits to 'main' are blocked. Create a feature branch (e.g. feat/*, fix/*, chore/*, docs/*)." >&2
+  exit 1
+fi
+
 # Fast tier on staged files only. Full gate runs at handoff and in CI.
 exec pnpm --silent verify:staged

@@ -11,9 +11,10 @@ Horse-racing simulation game: 20 generated horses race 6 scheduled rounds on a V
 
 - Package manager: **pnpm**. Node `^22.18.0 || >=24.12.0`.
 - Commands: `pnpm dev`, `pnpm verify:changed`, `pnpm verify:handoff`, `pnpm verify`, `pnpm test:coverage`, `pnpm test:storybook`, `pnpm test:e2e`.
-- While working: run `pnpm verify:changed` (scoped to diff vs `main`; skips docs-only changes). Work on feature branches.
+- While working: run `pnpm verify:changed` (scoped to diff vs `main`; skips docs-only changes). Work on feature branches (`feat/*`, `fix/*`, `chore/*`, `docs/*`); `.githooks/pre-commit` blocks direct commits to `main`.
+- Commit messages must follow Conventional Commits (enforced by `.githooks/commit-msg`).
 - Before completing a task: run `pnpm verify:handoff` (full fast gate + path-triggered storybook/e2e). Don't run e2e/storybook manually unless debugging.
-- Never bypass the pre-commit hook (`--no-verify`). CI is the authoritative full gate.
+- Never bypass git hooks (`--no-verify`). CI is the authoritative full gate.
 - Keep responses terse; omit filler.
 - Domain behavior, auto-advance state machine, and edge cases: [SPEC.md](SPEC.md).
 

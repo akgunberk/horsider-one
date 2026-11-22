@@ -37,5 +37,90 @@ export default defineConfigWithVueTs(
 
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
+  {
+    name: 'app/lib-boundaries',
+    files: ['src/lib/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'vue',
+              message: 'src/lib/ must be pure TypeScript with zero Vue imports (see docs/architecture.md).',
+            },
+            {
+              name: 'pinia',
+              message: 'src/lib/ must be pure TypeScript with zero Pinia imports (see docs/architecture.md).',
+            },
+            {
+              name: '@vueuse/core',
+              message: 'src/lib/ must be pure TypeScript with zero VueUse imports (see docs/architecture.md).',
+            },
+          ],
+          patterns: [
+            {
+              group: [
+                '@/stores/*',
+                '@/composables/*',
+                '@/components/*',
+                '@/data/*',
+                '../stores/*',
+                '../composables/*',
+                '../components/*',
+                '../data/*',
+              ],
+              message:
+                'src/lib/ may only import from src/types/ and sibling src/lib/ modules (see docs/architecture.md).',
+            },
+          ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'CallExpression[callee.object.name="Math"][callee.property.name="random"]',
+          message: 'Never call raw Math.random() in src/lib/. Inject rng: RngFn instead (see AGENTS.md).',
+        },
+      ],
+    },
+  },
+
+  {
+    name: 'app/store-boundaries',
+    files: ['src/stores/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/composables/*', '@/components/*', '../composables/*', '../components/*'],
+              message: 'src/stores/ may only import data, lib, and types (see docs/architecture.md).',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    name: 'app/composable-boundaries',
+    files: ['src/composables/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/components/*', '../components/*'],
+              message: 'src/composables/ must not import components (see docs/architecture.md).',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
   skipFormatting,
 )
