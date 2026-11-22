@@ -7,9 +7,15 @@ Tiered; logic lives in `scripts/verify.ts` (deterministic, not agent judgment). 
 | Command | When | Runs |
 |---|---|---|
 | `pnpm verify:changed` | While working | `vue-tsc --build`, `eslint` + `vitest related` on files changed vs merge-base with `main` (committed + uncommitted + untracked). Empty diff (e.g. on `main`) → full fast tier. |
-| `pnpm verify:staged` | Pre-commit hook (`.githooks/pre-commit`) | Same as `changed`, on staged files only. |
-| `pnpm verify` | CI, manual | Full fast tier: `vue-tsc --build`, `eslint .`, all unit tests. |
+| `pnpm verify:staged` | Pre-commit hook (`.githooks/pre-commit`) | Blocks direct commits on `main`, then runs `structure`, `vue-tsc --build`, `eslint`, and `vitest related` on staged files only. |
+| `pnpm verify` | CI, manual | Full fast tier: `structure`, `vue-tsc --build`, `eslint .`, all unit tests. |
 | `pnpm verify:handoff` | Before completing a task | `verify` + path-triggered heavy tiers (below). |
+
+Additional enforced gates:
+
+- `.githooks/commit-msg` enforces Conventional Commits (`type(scope): summary`, allowing Git `Merge`/`Revert`/`fixup!`/`squash!` subjects).
+- `eslint.config.ts` enforces layer boundaries (`src/lib/` pure TS + no raw `Math.random()`, `src/stores/` no components/composables, `src/composables/` no components).
+- `scripts/verify.ts` (`structure` step) enforces a flat `src/composables/` directory and forbids barrel `index.ts` files in `src/composables/` and `src/components/{race,layout}/`.
 
 Path rules:
 
