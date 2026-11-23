@@ -1,4 +1,4 @@
-/** Twenty visually distinct horse colors, reused across generated rosters. */
+/** Twenty visually distinct, WCAG AA white-text-safe horse colors, reused across generated rosters. */
 export const horseColors: readonly string[] = [
   '#c82829',
   '#8e24aa',
@@ -10,10 +10,10 @@ export const horseColors: readonly string[] = [
   '#0f766e',
   '#0369a1',
   '#be185d',
-  '#ea580c',
-  '#65a30d',
+  '#c2410c',
+  '#3f6212',
   '#7c3aed',
-  '#0891b2',
+  '#155e75',
   '#a16207',
   '#db2777',
   '#15803d',

@@ -22,6 +22,7 @@ describe('AppHeader', () => {
 
     expect(buttons).toHaveLength(2)
     expect(buttons[0]?.text()).toContain('Regenerate')
+    expect(buttons[0]?.attributes('aria-label')).toBe('Regenerate')
     expect(buttons[1]?.text()).toContain('Start Race')
   })
 

@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import type { LapEntry } from '../types'
+import type { LapEntry } from '@/types/race'
 import LapLeaderboardCard from './LapLeaderboardCard.vue'
 
 const entries: LapEntry[] = [
-  { number: 4, color: '#c82829', name: 'Frankel', time: '2:12.40' },
-  { number: 9, color: '#8e24aa', name: 'Zenyatta', time: '2:13.95' },
+  { number: 4, color: '#c82829', name: 'Frankel', meta: '2:12.40' },
+  { number: 9, color: '#8e24aa', name: 'Zenyatta', meta: '2:13.95' },
 ]
 
 describe('LapLeaderboardCard', () => {

@@ -8,7 +8,7 @@
 
 ## Domain Rules
 
-- **Horses:** Exactly 20 generated on app load. Immutable after generation.
+- **Horses:** Exactly 20 generated on app load and replaced together with the schedule on **Regenerate**. Static during an active race session.
   - `id: number` (1-20)
   - `name: string` (unique)
   - `color: string` (20 visually distinct hex/HSL colors)
@@ -43,7 +43,7 @@
 | `IDLE`         | Enabled                | Disabled           | N/A                                                                | 20 horses generated, no schedule.               |
 | `SCHEDULED`    | Enabled                | **Start** Enabled  | N/A                                                                | Schedule generated, active round ready.         |
 | `RUNNING`      | Disabled               | **Pause** Enabled  | N/A                                                                | Active round animating.                         |
-| `PAUSED`       | Enabled (with confirm) | **Resume** Enabled | N/A                                                                | Animation frozen, `dt` reset cleanly on resume. |
+| `PAUSED`       | Enabled                | **Resume** Enabled | N/A                                                                | Animation frozen, `dt` reset cleanly on resume. |
 | `INTERSTITIAL` | Disabled               | Disabled           | **Stop Auto-Advance** -> `SCHEDULED`<br>**Start Now** -> `RUNNING` | 5s countdown active between rounds.             |
 | `FINISHED`     | Enabled                | Disabled           | N/A                                                                | All 6 rounds complete. Results displayed.       |
 
@@ -56,7 +56,7 @@ The UI uses standard Tailwind CSS flexbox and grid utilities without absolute po
   - Content must never sit flush against the browser viewport edges (`left: 0`).
 - **Mobile (`< 768px`)**: Single-column vertical flex stack (`flex flex-col gap-4`).
   - Top bar with compact logo and actions.
-  - Sticky/fixed `Leader Status Banner` directly below header.
+  - `Round Leader Banner` directly below header while a round is underway.
   - Segmented tab navigation (`Track` | `Horses` | `Program` | `Results`).
   - Single viewport: the page itself does not scroll; the active tab, roster, track, program, and results scroll internally.
   - 10-lane race track in compact mode (lane number + marker).
@@ -66,13 +66,13 @@ The UI uses standard Tailwind CSS flexbox and grid utilities without absolute po
   - Horse list (4 cols) and tabbed Program/Results (8 cols) side-by-side below track.
 - **Desktop (`>= 1024px`)**: 12-column 3-column layout (`grid grid-cols-12 gap-6`).
   - Left panel: Horse List (3 cols).
-  - Center stage: Auto-advance alert + Track + Program lap stepper (6 cols).
+  - Center stage: Auto-advance alert + Track (6 cols).
   - Right panel: Tabbed Program and Results tables (3 cols).
 
 ## Accessibility & Edge Cases
 
 - Rapid clicks on Generate/Start cannot spawn duplicate rAF loops (enforced in both store action and composable `rafId` check).
-- Switching browser tabs pauses cleanly (`visibilitychange` listener) and clamps `dt` to 50ms maximum.
-- Controls are native `<button>` elements with `aria-pressed` on toggles.
+- Switching browser tabs or losing window focus pauses cleanly (`useDocumentVisibility` + `useWindowFocus`) and clamps `dt` to 50ms maximum.
+- Controls are native `<button>` elements with accessible names matching visible labels.
 - Screen readers receive live round updates via an `aria-live="polite"` region.
-- `useReducedMotion()` honors `prefers-reduced-motion` with simplified progress visuals.
+- `usePreferredReducedMotion()` honors `prefers-reduced-motion` with simplified track fill and stepped countdown visuals.

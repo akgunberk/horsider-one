@@ -7,8 +7,8 @@ const results: RoundResult[] = [
   {
     round: { round: 1, label: '1st Lap', distance: 1200, status: 'done' },
     entries: [
-      { number: 4, color: '#c82829', name: 'Frankel', time: '1:30.00' },
-      { number: 9, color: '#8e24aa', name: 'Zenyatta', time: '1:31.20' },
+      { number: 4, color: '#c82829', name: 'Frankel', meta: '1:30.00' },
+      { number: 9, color: '#8e24aa', name: 'Zenyatta', meta: '1:31.20' },
     ],
   },
 ]

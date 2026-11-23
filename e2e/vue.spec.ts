@@ -4,12 +4,12 @@ test('generates, regenerates and starts a race', async ({ page }) => {
   await page.goto('/')
 
   await expect(page.locator('h1')).toHaveText('Horse Racing')
-  await expect(page.getByRole('tab', { name: 'Program' }).filter({ visible: true })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Program' })).toBeVisible()
 
   const rosterRows = page.locator('[data-slot="horse-roster-row"]')
   await expect(rosterRows).toHaveCount(20)
 
-  const generate = page.getByRole('button', { name: 'Generate program' })
+  const generate = page.getByRole('button', { name: 'Regenerate' })
 
   await generate.click()
   await expect(rosterRows).toHaveCount(20)
@@ -30,14 +30,11 @@ test('runs all six rounds and records results', async ({ page }) => {
   await page.getByRole('button', { name: 'Start Race' }).click()
   await expect(page.locator('[data-phase="FINISHED"]')).toBeVisible({ timeout: 30_000 })
 
-  const generate = page.getByRole('button', { name: 'Generate program' })
+  const generate = page.getByRole('button', { name: 'Regenerate' })
   await expect(generate).toBeEnabled()
   await expect(page.locator('header').getByText('Finished')).toBeVisible()
 
-  await page
-    .getByRole('tab', { name: 'Results' })
-    .filter({ visible: true })
-    .click()
+  await page.getByRole('tab', { name: 'Results' }).click()
 
   await expect(page.getByText('Final')).toHaveCount(6)
 })

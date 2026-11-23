@@ -40,7 +40,9 @@ export function useRaceLoop(options: RaceLoopOptions = {}) {
       }
 
       lastTimestamp = now
-      schedule()
+      if (race.phase === 'RUNNING' || race.phase === 'INTERSTITIAL') {
+        schedule()
+      }
     })
   }
 

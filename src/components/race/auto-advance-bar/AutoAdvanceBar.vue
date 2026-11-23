@@ -34,6 +34,11 @@ const clampedProgress = computed(() =>
   props.progress === undefined ? 0 : Math.min(100, Math.max(0, props.progress)),
 )
 
+const progressScale = computed(() => {
+  const ratio = clampedProgress.value / 100
+  return props.reduced ? Math.round(ratio * 5) / 5 : ratio
+})
+
 const emit = defineEmits<{
   start: []
   stop: []
@@ -100,9 +105,8 @@ const emit = defineEmits<{
       :aria-valuenow="Math.round(clampedProgress)"
     >
       <div
-        class="h-full rounded-full bg-brand"
-        :class="reduced ? '' : 'transition-[width] duration-150 ease-linear'"
-        :style="{ width: `${clampedProgress}%` }"
+        class="h-full w-full origin-left rounded-full bg-brand"
+        :style="{ transform: `scaleX(${progressScale})` }"
       />
     </div>
   </div>
@@ -153,9 +157,8 @@ const emit = defineEmits<{
       :aria-valuenow="Math.round(clampedProgress)"
     >
       <div
-        class="h-full rounded-full bg-brand"
-        :class="reduced ? '' : 'transition-[width] duration-150 ease-linear'"
-        :style="{ width: `${clampedProgress}%` }"
+        class="h-full w-full origin-left rounded-full bg-brand"
+        :style="{ transform: `scaleX(${progressScale})` }"
       />
     </div>
   </div>

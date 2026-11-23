@@ -78,7 +78,7 @@ export const Scheduled: Story = {
 
     await expect(canvas.getByRole('heading', { name: 'Horse Racing' })).toBeVisible()
     await expect(canvas.getByRole('button', { name: 'Start Race' })).toBeEnabled()
-    await expect(canvasElement.querySelectorAll('[data-slot="horse-roster-row"]')).toHaveLength(20)
+    await expect(canvasElement.querySelectorAll('[role="progressbar"]')).toHaveLength(10)
   },
 }
 
@@ -98,7 +98,7 @@ export const InterstitialStopped: Story = {
     const canvas = within(canvasElement)
 
     await expect(canvas.getByRole('button', { name: 'Start Race' })).toBeEnabled()
-    await expect(canvas.getAllByText(/Next: 2nd Lap · 1400m/)[0]).toBeTruthy()
+    await expect(canvas.getByText(/Next: 2nd Lap · 1400m/)).toBeVisible()
   },
 }
 
@@ -107,7 +107,7 @@ export const Finished: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    await expect(canvas.getByRole('button', { name: 'Generate program' })).toBeEnabled()
+    await expect(canvas.getByRole('button', { name: 'Regenerate' })).toBeEnabled()
     await expect(canvasElement.querySelector('[data-phase="FINISHED"]')).not.toBeNull()
   },
 }

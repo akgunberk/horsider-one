@@ -11,7 +11,7 @@ export default defineConfig({
   base: process.env.VITE_BASE ?? '/',
   plugins: [
     vue(),
-    vueDevTools(),
+    ...(process.env.VITEST ? [] : [vueDevTools()]),
     tailwindcss(),
   ],
   resolve: {

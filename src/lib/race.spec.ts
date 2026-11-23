@@ -115,6 +115,7 @@ describe('race engine', () => {
   it('formats race times with centiseconds', () => {
     expect(formatRaceTime(0)).toBe('0:00.00')
     expect(formatRaceTime(41.2)).toBe('0:41.20')
+    expect(formatRaceTime(59.996)).toBe('1:00.00')
     expect(formatRaceTime(125.05)).toBe('2:05.05')
     expect(formatRaceTime(Number.NaN)).toBe('0:00.00')
   })

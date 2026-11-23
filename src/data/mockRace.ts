@@ -96,9 +96,9 @@ export const countdown = 'in 5s'
 export const leaderTime = '0:41.20'
 
 function finishTime(distance: number, index: number): string {
-  const total = distance * 0.075 + index * 1.65
-  const minutes = Math.floor(total / 60)
-  const seconds = (total % 60).toFixed(2).padStart(5, '0')
+  const totalCentiseconds = Math.round((distance * 0.075 + index * 1.65) * 100)
+  const minutes = Math.floor(totalCentiseconds / 6000)
+  const seconds = ((totalCentiseconds % 6000) / 100).toFixed(2).padStart(5, '0')
   return `${minutes}:${seconds}`
 }
 
@@ -110,7 +110,7 @@ export const programRounds: ProgramRound[] = rounds.map((round) => ({
       number: horse.id,
       name: horse.name,
       color: horse.color,
-      time: `#${horse.id}`,
+      meta: `#${horse.id}`,
     }
   }),
 }))
@@ -125,7 +125,7 @@ export const results: RoundResult[] = rounds
         number: horse.id,
         name: horse.name,
         color: horse.color,
-        time: finishTime(round.distance, index),
+        meta: finishTime(round.distance, index),
       }
     }),
   }))

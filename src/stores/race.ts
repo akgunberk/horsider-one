@@ -179,7 +179,7 @@ export const useRaceStore = defineStore('race', () => {
             number: horse.id,
             name: horse.name,
             color: horse.color,
-            time: `#${horse.id}`,
+            meta: `#${horse.id}`,
           },
         ]
       }),
@@ -210,7 +210,7 @@ export const useRaceStore = defineStore('race', () => {
           number: horse.id,
           name: horse.name,
           color: horse.color,
-          time: formatRaceTime(runner.finishTime ?? 0),
+          meta: formatRaceTime(runner.finishTime ?? 0),
         },
       ]
     })

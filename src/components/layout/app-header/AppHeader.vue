@@ -52,7 +52,7 @@ const emit = defineEmits<{
           size="sm"
           :disabled="!canGenerate"
           :title="canGenerate ? generateLabel : 'Pause the race to regenerate'"
-          aria-label="Generate program"
+          :aria-label="generateLabel"
           @click="emit('generate')"
         >
           <Shuffle class="size-3.5" aria-hidden="true" />

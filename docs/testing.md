@@ -14,7 +14,7 @@ Tiered; logic lives in `scripts/verify.ts` (deterministic, not agent judgment). 
 Additional enforced gates:
 
 - `.githooks/commit-msg` enforces Conventional Commits (`type(scope): summary`, allowing Git `Merge`/`Revert`/`fixup!`/`squash!` subjects).
-- `eslint.config.ts` enforces layer boundaries (`src/lib/` pure TS + no raw `Math.random()`, `src/stores/` no components/composables, `src/composables/` no components).
+- `eslint.config.ts` enforces layer boundaries (`src/types/` leaf-only, `src/lib/` pure TS + no raw `Math.random()`, `src/stores/` no components/composables, `src/composables/` no components) and Storybook lint rules.
 - `scripts/verify.ts` (`structure` step) enforces a flat `src/composables/` directory and forbids barrel `index.ts` files in `src/composables/` and `src/components/{race,layout}/`.
 
 Path rules:
@@ -50,7 +50,7 @@ The hook is installed by `pnpm install` (`prepare` sets `core.hooksPath`). `VERI
 ## Storybook interaction tests
 
 - Every story file is also a test. Use `play` functions with `expect`, `userEvent`, and `within` from `storybook/test`.
-- Cover meaningful interactions (tab switches, disclosures, action buttons) and assert accessible roles.
+- Cover meaningful interactions (tab switches, disclosures, action buttons) and assert accessible roles. Blocking `axe` checks (`a11y.test: 'error'`) run on every story.
 - Run headless in Chromium with `pnpm test:storybook`.
 - Interaction tests are not part of `pnpm verify`/`verify:changed` so the inner loop stays fast; `verify:handoff` and CI run them when component/story files change.
 - Explore locally with `pnpm storybook`.

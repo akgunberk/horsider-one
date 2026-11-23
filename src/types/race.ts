@@ -1,5 +1,3 @@
-import type { LapEntry } from '@/components/race/types'
-
 export type RacePhase = 'IDLE' | 'SCHEDULED' | 'RUNNING' | 'PAUSED' | 'INTERSTITIAL' | 'FINISHED'
 
 /** Horse roster entry. */
@@ -53,6 +51,17 @@ export interface RoundRaceState {
   elapsed: number
   runners: RunnerState[]
   allFinished: boolean
+}
+
+/** Ranked or draw row shown in program and results cards. */
+export interface LapEntry {
+  /** Permanent horse number (1-20). */
+  number: number
+  /** Runner color used by the marker and dot. */
+  color: string
+  name: string
+  /** Trailing metadata: horse tag (`#4`) in program or finish time (`0:41.20`) in results. */
+  meta: string
 }
 
 export interface ProgramRound {

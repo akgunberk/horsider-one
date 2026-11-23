@@ -7,14 +7,14 @@ import ProgramResultsPanel from './ProgramResultsPanel.vue'
 const program: ProgramRound[] = [
   {
     round: { round: 3, label: '3rd Lap', distance: 1600, status: 'running' },
-    entries: [{ number: 4, color: '#c82829', name: 'Program Runner', time: '#4' }],
+    entries: [{ number: 4, color: '#c82829', name: 'Program Runner', meta: '#4' }],
   },
 ]
 
 const results: RoundResult[] = [
   {
     round: { round: 1, label: '1st Lap', distance: 1200, status: 'done' },
-    entries: [{ number: 4, color: '#c82829', name: 'Result Runner', time: '2:12.40' }],
+    entries: [{ number: 4, color: '#c82829', name: 'Result Runner', meta: '2:12.40' }],
   },
 ]
 
