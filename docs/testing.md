@@ -44,7 +44,7 @@ The hook is installed by `pnpm install` (`prepare` sets `core.hooksPath`). `VERI
 
 - `pnpm test:coverage` runs the unit project with V8 coverage and enforces 85% thresholds.
 - Reports: `text`, `html` (`coverage/index.html`), and `lcov`.
-- Excluded: shadcn-vue `ui/**`, stories, mock data, shared types, `src/test/**`, and scaffolding (`main.ts`, `counter.ts`).
+- Excluded: shadcn-vue `ui/**`, stories, mock data, shared types, `src/test/**`, and `src/main.ts`.
 - Add or extend a co-located spec when touching app-owned components or data.
 
 ## Storybook interaction tests
@@ -64,7 +64,7 @@ The hook is installed by `pnpm install` (`prepare` sets `core.hooksPath`). `VERI
   - `onlyChanged: true` (TurboSnap) only snapshots stories affected by the diff.
 - Secret: `CHROMATIC_PROJECT_TOKEN` (repo settings → secrets → Actions). Fork PRs are skipped because secrets are unavailable to them.
 - Approval flow: open the PR → click the failed `UI Tests` check (or the Chromatic comment) → review the diff → Accept → re-run the check. The Chromatic build log records who approved what; use that for blame when a visual regression ships.
-- Snapshots are opt-out: `parameters.chromatic.disableSnapshot = true` on scaffolding/noisy stories (`Example/Page`, `Overview/Component Library`). Do the same for any story that depends on timers or randomness.
+- Snapshots are opt-out: `parameters.chromatic.disableSnapshot = true` on kitchen-sink/noisy stories (`Overview/Component Library`). Do the same for any story that depends on timers or randomness.
 - Fonts are self-hosted via `@fontsource-variable/*`; keep it that way so snapshots never wait on a network font.
 - Local validation: `pnpm build-storybook` then `CHROMATIC_PROJECT_TOKEN=… pnpm test:visual`. This publishes a build to Chromatic, so use it sparingly; `pnpm test:storybook` covers interaction tests locally and is what `verify:handoff` runs.
 - To make the check blocking, add the `visual` job to the `main` branch protection rules.

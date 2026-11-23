@@ -45,7 +45,6 @@ export default mergeConfig(
           'src/stories/**',
           'src/data/**',
           'src/test/**',
-          'src/stores/counter.ts',
           'src/main.ts',
           'src/types/**',
         ],
