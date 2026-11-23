@@ -18,7 +18,7 @@ let cancelFrame: ReturnType<typeof vi.fn>
 
 beforeEach(() => {
   frames = []
-  cancelFrame = vi.fn()
+  cancelFrame = vi.fn<(handle: number) => void>()
   setActivePinia(createPinia())
 
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
