@@ -171,9 +171,10 @@ onMounted(() => race.ensureGenerated())
             @stop="race.stopAutoAdvance()"
             @resume="race.resumeAutoAdvance()"
           />
-          <div class="min-h-0 flex-1 overflow-y-auto" tabindex="0" aria-label="Live race track">
+          <div class="min-h-0 flex-1">
             <RaceTrackCard
               v-if="race.activeRoundView"
+              class="h-full"
               :round="race.activeRoundView"
               :lanes="race.laneRunners"
               :leader="leaderLabel"

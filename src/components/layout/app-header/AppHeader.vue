@@ -36,10 +36,10 @@ const emit = defineEmits<{
           <Flag class="size-4" aria-hidden="true" />
         </span>
         <div class="min-w-0">
-          <h1 class="truncate font-heading text-lg leading-none font-semibold text-foreground">
+          <h1 class="truncate font-heading text-lg leading-tight font-semibold text-foreground">
             Horse Racing
           </h1>
-          <p class="mt-1 hidden text-[13px] text-muted-foreground sm:block">
+          <p class="mt-0.5 hidden text-[13px] text-muted-foreground sm:block">
             6-Round Turf Telemetry Simulator
           </p>
         </div>

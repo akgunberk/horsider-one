@@ -61,7 +61,11 @@ const props = withDefaults(defineProps<Props>(), {
       </div>
     </header>
 
-    <ul class="flex flex-col gap-2.5">
+    <ul
+      class="flex min-h-0 flex-1 flex-col justify-between gap-2.5 overflow-y-auto"
+      :tabindex="compact ? undefined : 0"
+      :aria-label="compact ? undefined : 'Race lanes'"
+    >
       <li v-for="lane in lanes" :key="lane.lane">
         <LaneProgress
           :lane="lane.lane"
