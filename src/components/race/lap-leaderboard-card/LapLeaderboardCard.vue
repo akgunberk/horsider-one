@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from 'vue'
 import { cn } from 'cn'
 import LeaderboardRow from '../leaderboard-row/LeaderboardRow.vue'
-import type { LapEntry } from '../types'
+import type { LapEntry } from '@/types/race'
 
 interface Props {
   title: string
@@ -18,7 +18,7 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-  <div
+  <article
     data-slot="lap-leaderboard-card"
     :class="cn('w-full overflow-hidden rounded-xl border border-border bg-card', props.class)"
   >
@@ -38,9 +38,9 @@ const props = defineProps<Props>()
         :rank="index + 1"
         :color="entry.color"
         :name="entry.name"
-        :time="entry.time"
+        :meta="entry.meta"
         class="px-4 py-1.5"
       />
     </div>
-  </div>
+  </article>
 </template>

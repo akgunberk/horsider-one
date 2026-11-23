@@ -6,7 +6,8 @@ interface Props {
   rank: number
   color: string
   name: string
-  time: string
+  /** Trailing metadata (e.g. horse tag `#4` or finish time `0:41.20`). */
+  meta: string
   /** Draw a top divider; disable inside cards that already use `divide-y`. */
   divider?: boolean
   class?: HTMLAttributes['class']
@@ -39,6 +40,6 @@ const props = withDefaults(defineProps<Props>(), {
       />
       <span class="truncate text-[13px] text-foreground">{{ name }}</span>
     </div>
-    <span class="shrink-0 text-[12px] text-muted-foreground tabular-nums">{{ time }}</span>
+    <span class="shrink-0 text-[12px] text-muted-foreground tabular-nums">{{ meta }}</span>
   </div>
 </template>

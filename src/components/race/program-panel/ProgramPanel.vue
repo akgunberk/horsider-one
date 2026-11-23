@@ -61,7 +61,7 @@ const STATUS_VARIANT: Record<RoundStatus, BadgeVariants['variant']> = {
           :rank="index + 1"
           :color="entry.color"
           :name="entry.name"
-          :time="entry.time"
+          :meta="entry.meta"
           class="px-3 py-1.5"
         />
       </div>

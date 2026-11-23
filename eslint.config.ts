@@ -36,6 +36,51 @@ export default defineConfigWithVueTs(
   },
 
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
+  ...storybook.configs['flat/recommended'],
+
+  {
+    name: 'app/types-boundaries',
+    files: ['src/types/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'vue',
+              message: 'src/types/ must contain pure domain types with zero Vue imports (see docs/architecture.md).',
+            },
+            {
+              name: 'pinia',
+              message: 'src/types/ must contain pure domain types with zero Pinia imports (see docs/architecture.md).',
+            },
+            {
+              name: '@vueuse/core',
+              message: 'src/types/ must contain pure domain types with zero VueUse imports (see docs/architecture.md).',
+            },
+          ],
+          patterns: [
+            {
+              group: [
+                '@/lib/*',
+                '@/stores/*',
+                '@/composables/*',
+                '@/components/*',
+                '@/data/*',
+                '../lib/*',
+                '../stores/*',
+                '../composables/*',
+                '../components/*',
+                '../data/*',
+              ],
+              message:
+                'src/types/ is the leaf contract layer and must not import from higher layers (see docs/architecture.md).',
+            },
+          ],
+        },
+      ],
+    },
+  },
 
   {
     name: 'app/lib-boundaries',

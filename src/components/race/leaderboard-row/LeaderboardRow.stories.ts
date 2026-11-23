@@ -9,7 +9,7 @@ const meta = {
     rank: 1,
     color: '#DF4545',
     name: 'Secretariat',
-    time: '12.84s',
+    meta: '0:12.84',
     divider: true,
   },
   argTypes: {

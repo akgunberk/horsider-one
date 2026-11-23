@@ -6,11 +6,11 @@ import ProgramPanel from './ProgramPanel.vue'
 const program: ProgramRound[] = [
   {
     round: { round: 1, label: '1st Lap', distance: 1200, status: 'done' },
-    entries: [{ number: 4, color: '#c82829', name: 'Runner 1-1', time: '#4' }],
+    entries: [{ number: 4, color: '#c82829', name: 'Runner 1-1', meta: '#4' }],
   },
   {
     round: { round: 2, label: '2nd Lap', distance: 1400, status: 'upcoming' },
-    entries: [{ number: 9, color: '#8e24aa', name: 'Runner 2-1', time: '#9' }],
+    entries: [{ number: 9, color: '#8e24aa', name: 'Runner 2-1', meta: '#9' }],
   },
 ]
 

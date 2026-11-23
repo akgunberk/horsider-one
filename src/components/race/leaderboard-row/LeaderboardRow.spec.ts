@@ -3,9 +3,9 @@ import { mount } from '@vue/test-utils'
 import LeaderboardRow from './LeaderboardRow.vue'
 
 describe('LeaderboardRow', () => {
-  it('renders rank, horse and finish time', () => {
+  it('renders rank, horse and trailing metadata', () => {
     const wrapper = mount(LeaderboardRow, {
-      props: { rank: 1, color: '#c82829', name: 'Frankel', time: '2:12.40' },
+      props: { rank: 1, color: '#c82829', name: 'Frankel', meta: '2:12.40' },
     })
 
     expect(wrapper.text()).toContain('1')
@@ -19,7 +19,7 @@ describe('LeaderboardRow', () => {
 
   it('draws a divider when requested', () => {
     const wrapper = mount(LeaderboardRow, {
-      props: { rank: 2, color: '#8e24aa', name: 'Zenyatta', time: '2:13.95', divider: true },
+      props: { rank: 2, color: '#8e24aa', name: 'Zenyatta', meta: '2:13.95', divider: true },
     })
 
     expect(wrapper.classes()).toContain('border-t')
