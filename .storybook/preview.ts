@@ -16,6 +16,26 @@ const preview: Preview = {
       },
     },
 
+    viewport: {
+      options: {
+        mobile: {
+          name: 'Mobile (390×844)',
+          styles: { width: '390px', height: '844px' },
+          type: 'mobile',
+        },
+        tablet: {
+          name: 'Tablet (834×1112)',
+          styles: { width: '834px', height: '1112px' },
+          type: 'tablet',
+        },
+        desktop: {
+          name: 'Desktop (1280×900)',
+          styles: { width: '1280px', height: '900px' },
+          type: 'desktop',
+        },
+      },
+    },
+
     chromatic: {
       // Give fonts and first paint time to settle before capturing.
       delay: 300,

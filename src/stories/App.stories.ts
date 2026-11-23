@@ -55,6 +55,16 @@ const meta = {
   component: App,
   parameters: {
     layout: 'fullscreen',
+    chromatic: {
+      // App.vue hides lane progress trails when prefers-reduced-motion is active.
+      // Page stories are frozen seeded states, so disable reduced-motion emulation here.
+      prefersReducedMotion: 'no-preference',
+      modes: {
+        mobile: { viewport: 'mobile' },
+        tablet: { viewport: 'tablet' },
+        desktop: { viewport: 'desktop' },
+      },
+    },
   },
 } satisfies Meta<typeof App>
 
