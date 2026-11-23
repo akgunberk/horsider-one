@@ -76,7 +76,8 @@ export function finishOrder(state: RoundRaceState): RunnerState[] {
 
 export function formatRaceTime(seconds: number): string {
   const safe = Number.isFinite(seconds) && seconds > 0 ? seconds : 0
-  const minutes = Math.floor(safe / 60)
-  const remainder = (safe % 60).toFixed(2).padStart(5, '0')
+  const totalCentiseconds = Math.round(safe * 100)
+  const minutes = Math.floor(totalCentiseconds / 6000)
+  const remainder = ((totalCentiseconds % 6000) / 100).toFixed(2).padStart(5, '0')
   return `${minutes}:${remainder}`
 }

@@ -29,7 +29,7 @@ export const Default: Story = {
     const canvas = within(canvasElement)
 
     await expect(canvas.getByRole('heading', { name: 'Horse Racing' })).toBeVisible()
-    await expect(canvas.getByRole('button', { name: 'Generate program' })).toBeEnabled()
+    await expect(canvas.getByRole('button', { name: 'Regenerate' })).toBeEnabled()
     await expect(canvas.getByRole('button', { name: 'Start Race' })).toBeEnabled()
   },
 }
@@ -46,7 +46,7 @@ export const Running: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    await expect(canvas.getByRole('button', { name: 'Generate program' })).toBeDisabled()
+    await expect(canvas.getByRole('button', { name: 'Regenerate' })).toBeDisabled()
     await expect(canvas.getByRole('button', { name: 'Pause' })).toBeEnabled()
   },
 }

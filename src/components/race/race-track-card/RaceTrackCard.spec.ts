@@ -32,4 +32,21 @@ describe('RaceTrackCard', () => {
     expect(wrapper.text()).toContain('2 Horses')
     expect(wrapper.text()).not.toContain('Round 3 of 6')
   })
+
+  it('computes distance ruler markers from the active round distance', () => {
+    const wrapper = mount(RaceTrackCard, {
+      props: {
+        round: { round: 6, label: '6th Lap', distance: 2200, status: 'running' },
+        lanes,
+        leader: 'Frankel (#4)',
+        time: '0:41.20',
+      },
+    })
+
+    expect(wrapper.text()).toContain('0m')
+    expect(wrapper.text()).toContain('550m')
+    expect(wrapper.text()).toContain('1100m')
+    expect(wrapper.text()).toContain('1650m')
+    expect(wrapper.text()).toContain('Finish')
+  })
 })

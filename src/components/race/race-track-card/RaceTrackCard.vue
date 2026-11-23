@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
+import { computed } from 'vue'
 import type { LaneRunner, Round } from '@/types/race'
 import { Timer } from '@lucide/vue'
 import { cn } from 'cn'
@@ -25,6 +26,14 @@ const props = withDefaults(defineProps<Props>(), {
   compact: false,
   reduced: false,
 })
+
+const distanceMarkers = computed(() => [
+  '0m',
+  `${Math.round(props.round.distance * 0.25)}m`,
+  `${Math.round(props.round.distance * 0.5)}m`,
+  `${Math.round(props.round.distance * 0.75)}m`,
+  'Finish',
+])
 </script>
 
 <template>
@@ -87,11 +96,7 @@ const props = withDefaults(defineProps<Props>(), {
         )
       "
     >
-      <span>0m</span>
-      <span>400m</span>
-      <span>800m</span>
-      <span>1200m</span>
-      <span>Finish</span>
+      <span v-for="marker in distanceMarkers" :key="marker">{{ marker }}</span>
     </div>
   </article>
 </template>

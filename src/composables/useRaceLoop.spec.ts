@@ -216,4 +216,35 @@ describe('useRaceLoop', () => {
     expect(frames).toHaveLength(0)
     wrapper.unmount()
   })
+
+  it('does not schedule another frame after a tick finishes round six', async () => {
+    const FastHost = defineComponent({
+      setup() {
+        useRaceLoop({ speedMultiplier: 500 })
+        return () => null
+      },
+    })
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    const wrapper = mount(FastHost, { global: { plugins: [pinia] } })
+    const race = useRaceStore(pinia)
+    race.generate(seededRng(1))
+    race.start()
+    await nextTick()
+
+    for (let round = 1; round <= 5; round += 1) {
+      race.tick(100, seededRng(round))
+      race.tick(5, seededRng(round))
+    }
+    race.tick(30, seededRng(6))
+    expect(race.phase).toBe('RUNNING')
+
+    frames[frames.length - 1]?.(1000)
+    const countAfterPrime = frames.length
+    frames[countAfterPrime - 1]?.(1050)
+
+    expect(race.phase).toBe('FINISHED')
+    expect(frames).toHaveLength(countAfterPrime)
+    wrapper.unmount()
+  })
 })

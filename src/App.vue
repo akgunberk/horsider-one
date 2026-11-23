@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { usePreferredReducedMotion } from '@vueuse/core'
+import { useMediaQuery, usePreferredReducedMotion } from '@vueuse/core'
 import Badge from '@/components/ui/badge/Badge.vue'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import AppHeader from '@/components/layout/app-header/AppHeader.vue'
@@ -18,6 +18,7 @@ import { useRaceStore } from '@/stores/race'
 const race = useRaceStore()
 const speedMultiplier = useSpeedMultiplier()
 const preferredReducedMotion = usePreferredReducedMotion()
+const isDesktop = useMediaQuery('(min-width: 768px)')
 
 useRaceLoop({ speedMultiplier })
 
@@ -59,7 +60,7 @@ onMounted(() => race.ensureGenerated())
       class="container mx-auto flex min-h-0 max-w-7xl flex-1 flex-col px-4 py-4 md:px-6 md:py-6 lg:px-8 lg:py-8"
     >
       <!-- Mobile: segmented views -->
-      <div class="flex min-h-0 flex-1 flex-col gap-3.5 md:hidden">
+      <div v-if="!isDesktop" class="flex min-h-0 flex-1 flex-col gap-3.5">
         <RoundLeaderBanner
           v-if="race.leader && isRaceUnderway"
           class="shrink-0"
@@ -153,7 +154,8 @@ onMounted(() => race.ensureGenerated())
 
       <!-- Tablet & desktop: 12-column workspace -->
       <div
-        class="hidden min-h-0 flex-1 md:grid md:grid-cols-12 md:grid-rows-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-stretch md:gap-6 lg:grid-rows-1"
+        v-else
+        class="grid min-h-0 flex-1 grid-cols-12 grid-rows-[minmax(0,1.1fr)_minmax(0,1fr)] items-stretch gap-6 lg:grid-rows-1"
       >
         <div
           class="order-1 flex min-h-0 flex-col gap-5 md:col-span-12 md:row-start-1 lg:order-2 lg:col-span-6 lg:row-start-1"
