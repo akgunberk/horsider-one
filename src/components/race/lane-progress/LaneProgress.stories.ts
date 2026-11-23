@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { horseColors } from '@/data/horseColors'
 import LaneProgress from './LaneProgress.vue'
 
 const meta = {
@@ -9,7 +10,7 @@ const meta = {
     lane: 1,
     number: 7,
     name: 'Secretariat',
-    color: '#DF4545',
+    color: horseColors[0]!,
     progress: 52,
     compact: false,
   },
@@ -53,11 +54,11 @@ export const Field: Story = {
     components: { LaneProgress },
     setup: () => ({
       runners: [
-        { lane: 1, number: 7, name: 'Secretariat', color: '#DF4545', progress: 72 },
-        { lane: 2, number: 4, name: 'Frankel', color: '#3B82F6', progress: 64 },
-        { lane: 3, number: 12, name: 'Man o’ War', color: '#10B981', progress: 58 },
-        { lane: 4, number: 9, name: 'Seabiscuit', color: '#F59E0B', progress: 45 },
-        { lane: 5, number: 15, name: 'Phar Lap', color: '#8B5CF6', progress: 31 },
+        { lane: 1, number: 7, name: 'Secretariat', color: horseColors[0]!, progress: 72 },
+        { lane: 2, number: 4, name: 'Frankel', color: horseColors[3]!, progress: 64 },
+        { lane: 3, number: 12, name: 'Man o’ War', color: horseColors[2]!, progress: 58 },
+        { lane: 4, number: 9, name: 'Seabiscuit', color: horseColors[5]!, progress: 45 },
+        { lane: 5, number: 15, name: 'Phar Lap', color: horseColors[6]!, progress: 31 },
       ],
     }),
     template: `<div class="flex w-[520px] flex-col gap-2">
