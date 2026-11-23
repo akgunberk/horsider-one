@@ -16,11 +16,12 @@
 
 `src/lib/race.ts` is pure:
 
-- `speed = BASE_SPEED × (0.75 + condition / 400) × (1 + noise)`, `noise ∈ [-0.08, 0.08]`.
+- `speed = BASE_SPEED × (0.75 + condition / 400) × (1 + noise)`, `noise ∈ [-0.08, 0.08]`, sampled per tick.
+  - Trade-off: per-tick sampling keeps `stepRound` stateless and simple; net speed variance scales inversely with tick count ($\propto 1/\sqrt{N}$), so cross-device replay determinism would require fixed-interval pace resampling.
 - `stepRound(state, distance, dt, rng)` returns the next immutable state.
 - Finish time is interpolated: `elapsed + remainingDistance / speed`.
 - `finishOrder()` sorts by finish time, then horse id.
-- `formatRaceTime()` renders `m:ss.ss`.
+- `formatRaceTime()` rounds to integer centiseconds before splitting minutes/seconds so `59.996` formats as `1:00.00` (not `0:60.00`).
 
 ## Loop
 

@@ -43,7 +43,7 @@ Mapped directly against the Insider One Software Developer Assessment Project br
 ## Engineering Highlights
 
 - **Pure, deterministic simulation engine:** [`src/lib/`](src/lib/) has zero Vue or Pinia imports and bans raw `Math.random()`. All randomness flows through an injected `rng: () => number`, enabling repeatable unit tests and deterministic Storybook page states via [`seededRng()`](src/test/rng.ts).
-- **Frame-rate independent finish ordering:** Finish times interpolate exact sub-frame overshoot (`elapsed + remainingDistance / speed`), with deterministic tie-breaking by horse `id`.
+- **Sub-frame finish-time interpolation:** Finish times interpolate exact sub-frame overshoot (`elapsed + remainingDistance / speed`), with deterministic tie-breaking by horse `id`.
 - **Safe animation lifecycle:** [`useRaceLoop.ts`](src/composables/useRaceLoop.ts) guards against duplicate `requestAnimationFrame` loops (`rafId`), clamps frame `dt` to `50ms`, and uses VueUse (`useDocumentVisibility`, `useWindowFocus`) to pause cleanly when the tab is backgrounded or blurred.
 - **60fps rendering without deep reactivity overhead:** Live runner progress lives behind `shallowRef` in Pinia, and lane movement animates only `transform: translateX(calc(var(--p) * (100cqi - 100%)))` inside `container-type: inline-size` lanes (no layout thrashing via `left`/`margin-left`).
 - **Explicit state machine:** Every action button (`Generate / Regenerate`, `Start / Pause / Resume`, `Stop / Resume Auto-Advance`, `Start Now`) is driven by derived `computed()` guards from the current `RacePhase`.
@@ -103,7 +103,7 @@ The UI was designed in **Google Stitch** ([project link](https://stitch.google.c
 ```
 
 - Agents inspected Stitch screens, layout hierarchy, spacing, and color tokens over MCP instead of working from static image guesses.
-- Design tokens map into Tailwind CSS v4 `@theme` definitions in [`src/style.css`](src/style.css), including brand tokens, the 10-lane track palette, and self-hosted variable fonts (`@fontsource-variable/inter`, `@fontsource-variable/wix-madefor-display`, `@fontsource-variable/spline-sans-mono`) so rendering stays identical across environments and visual snapshots.
+- Design tokens map into Tailwind CSS v4 `@theme` definitions in [`src/style.css`](src/style.css), including brand tokens and self-hosted variable fonts (`@fontsource-variable/inter`, `@fontsource-variable/wix-madefor-display`, `@fontsource-variable/spline-sans-mono`) so rendering stays identical across environments and visual snapshots.
 
 ## Agent-Assisted Development Workflow
 
@@ -120,7 +120,7 @@ This repository was built using **multi-model agent workflows via `opencode` + S
 
 Prose guidelines alone erode across long sessions, so every critical invariant is mechanically enforced:
 
-- **Layer & determinism lint rules** ([`eslint.config.ts`](eslint.config.ts)): forbids Vue/Pinia/VueUse/store/component imports and raw `Math.random()` inside `src/lib/`; enforces strict import boundaries for `src/stores/` and `src/composables/`.
+- **Layer, determinism & Storybook lint rules** ([`eslint.config.ts`](eslint.config.ts)): keeps `src/types/` strictly leaf-only; forbids Vue/Pinia/VueUse/store/component imports and raw `Math.random()` inside `src/lib/`; enforces strict import boundaries for `src/stores/` and `src/composables/`; enables `eslint-plugin-storybook`.
 - **Structural gate** ([`scripts/verify.ts`](scripts/verify.ts)): enforces a flat `src/composables/` directory and forbids barrel `index.ts` files in app-owned component folders (`src/components/{race,layout}/`) to keep bundler module graphs exact.
 - **Git hooks** ([`.githooks/`](.githooks/)): blocks direct commits to `main`, enforces Conventional Commits (`commit-msg`), and runs staged verification (`pre-commit`).
 - **Tiered verification loop** ([`scripts/verify.ts`](scripts/verify.ts)): quiet one-line-per-step output (full logs only on failure) keeps the agent inner loop fast (`verify:changed`) while `verify:handoff` automatically triggers Storybook interaction and Playwright E2E tests based on changed paths.
@@ -133,7 +133,7 @@ Full details in [`docs/testing.md`](docs/testing.md).
 | Layer                     | Tooling                                             | Scope & Enforcement                                                                                                                                |
 | ------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Unit**                  | Vitest + `@vue/test-utils` (`jsdom`)                | Pure simulation engine, PRNG, Pinia store transitions, composables, and co-located component specs. **85% V8 coverage thresholds** enforced in CI. |
-| **Component Interaction** | Storybook 10 + `@storybook/addon-vitest` (Chromium) | Every component and full-page story (`Pages/Horse Racing`) runs `play` assertions against accessible roles and live interactions.                  |
+| **Component Interaction** | Storybook 10 + `@storybook/addon-vitest` (Chromium) | Every component and full-page story (`Pages/Horse Racing`) runs `play` assertions and blocking `axe` accessibility checks (`a11y.test: 'error'`). |
 | **Visual Regression**     | Chromatic (TurboSnap)                               | Cloud Chrome snapshots of Storybook stories. PRs block until diffs are reviewed and approved; `main` auto-accepts baselines.                       |
 | **End-to-End**            | Playwright (Chromium, Firefox, WebKit)              | Full 6-round race lifecycle using `/?speed=120`, asserting state via `[data-phase="FINISHED"]` with zero arbitrary sleeps.                         |
 
@@ -178,4 +178,4 @@ src/
 ## Trade-offs & Next Steps
 
 - **No app-owned barrel files:** Direct SFC imports avoid pulling unused components into chunks and keep the dependency graph explicit.
-- **Potential next steps:** `?seed=` URL parameter for shareable race replays, localStorage session persistence, i18n, and optional sound/commentary cues.
+- **Potential next steps:** Fixed-interval pace resampling + `?seed=` URL parameter for cross-device shareable race replays, localStorage session persistence, i18n, and optional sound/commentary cues.
